@@ -46,4 +46,13 @@ type singleFlight = {|
       </types:output-event>
     </types:processor-declaration>
   </types:enrichment>
+  <types:enrichment select="#3250cec5-9976-4b96-8544-29240a943f30">
+    <types:processor-declaration>
+      <types:output-event>
+        <types:message>
+          <types:payload type="flight"/>
+        </types:message>
+      </types:output-event>
+    </types:processor-declaration>
+  </types:enrichment>
 </types:mule>

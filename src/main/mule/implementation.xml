@@ -7,16 +7,10 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
 http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
 http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd">
-	<http:listener-config name="ListenerConfig" doc:name="HTTP Listener config" doc:id="664d0b5d-e567-44b6-8924-be069f5be105">
-		<http:listener-connection host="0.0.0.0" port="8081" />
-	</http:listener-config>
 	<db:config name="MySqlConfig" doc:name="Database Config" doc:id="1219b1da-1c5f-47c9-9064-ae6ace6853c1" >
 		<db:my-sql-connection host="mudb.mulesoft-training.com" port="3306" user="mule" password="mule" database="training" />
 	</db:config>
 	<flow name="getFlightsFlow" doc:id="2413dae1-c1ad-4841-95d5-9805fc36905e" >
-		<http:listener doc:name="HTTP" doc:id="8e84c036-2b9a-4996-9d52-a9448e7827a1" config-ref="ListenerConfig" path="/flights" outputMimeType="text/plain" allowedMethods="GET">
-			<repeatable-in-memory-stream />
-		</http:listener>
 		<db:select doc:name="DbSelectAll" doc:id="51182321-1a2a-49d8-bad9-efb78591ab85" config-ref="MySqlConfig">
 			<db:sql >SELECT * FROM american</db:sql>
 		</db:select>
@@ -42,9 +36,6 @@ payload map ( payload01 , indexOfPayload01 ) -> {
 		</ee:transform>
 	</flow>
 	<flow name="getFlightById" doc:id="8dcaccdd-1b03-4910-b70e-6bf794392c12" >
-		<http:listener doc:name="HTTP" doc:id="d8e47749-31f1-41e0-9ff1-3965ef6ae6d7" config-ref="ListenerConfig" path="/flights/{ID}" outputMimeType="text/plain" allowedMethods="GET">
-			<repeatable-in-memory-stream />
-		</http:listener>
 		<db:select doc:name="DbSelectById" doc:id="74da4eaa-16a6-4793-980d-1f9dde8a99d2" config-ref="MySqlConfig" >
 			<db:sql >SELECT * FROM american WHERE ID = :ID</db:sql>
 			<db:input-parameters ><![CDATA[#[{'ID': attributes.uriParams.ID}]]]></db:input-parameters>
@@ -71,9 +62,6 @@ payload map ( payload01 , indexOfPayload01 ) -> {
 		</ee:transform>
 	</flow>
 	<flow name="postFlights" doc:id="2b5e1ce5-044a-416c-afd7-ce13a7c799cd" >
-		<http:listener doc:name="Copy_of_HTTP" doc:id="d3a460b8-23e1-45c5-bb98-c7464688a8de" config-ref="ListenerConfig" path="/flights" outputMimeType="text/plain" allowedMethods="POST">
-			<repeatable-in-memory-stream />
-		</http:listener>
 		<set-payload value='{"message": "KEK, YOU ARE KEK"}' doc:name="Set Payload" doc:id="af881eae-d9dc-4405-9041-3c0f53814867" />
 	</flow>
 </mule>
