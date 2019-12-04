@@ -14,7 +14,7 @@ http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/m
 		<db:my-sql-connection host="mudb.mulesoft-training.com" port="3306" user="mule" password="mule" database="training" />
 	</db:config>
 	<flow name="getFlightsFlow" doc:id="2413dae1-c1ad-4841-95d5-9805fc36905e" >
-		<http:listener doc:name="HTTP" doc:id="8e84c036-2b9a-4996-9d52-a9448e7827a1" config-ref="ListenerConfig" path="/flights" outputMimeType="text/plain" >
+		<http:listener doc:name="HTTP" doc:id="8e84c036-2b9a-4996-9d52-a9448e7827a1" config-ref="ListenerConfig" path="/flights" outputMimeType="text/plain" allowedMethods="GET">
 			<repeatable-in-memory-stream />
 		</http:listener>
 		<db:select doc:name="DbSelectAll" doc:id="51182321-1a2a-49d8-bad9-efb78591ab85" config-ref="MySqlConfig">
@@ -42,7 +42,7 @@ payload map ( payload01 , indexOfPayload01 ) -> {
 		</ee:transform>
 	</flow>
 	<flow name="Copy_of_getFlightsFlow" doc:id="8dcaccdd-1b03-4910-b70e-6bf794392c12" >
-		<http:listener doc:name="Copy_of_HTTP" doc:id="d8e47749-31f1-41e0-9ff1-3965ef6ae6d7" config-ref="ListenerConfig" path="/flights/{ID}" outputMimeType="text/plain" >
+		<http:listener doc:name="Copy_of_HTTP" doc:id="d8e47749-31f1-41e0-9ff1-3965ef6ae6d7" config-ref="ListenerConfig" path="/flights/{ID}" outputMimeType="text/plain" allowedMethods="GET">
 			<repeatable-in-memory-stream />
 		</http:listener>
 		<db:select doc:name="Copy_of_DbSelectAll" doc:id="74da4eaa-16a6-4793-980d-1f9dde8a99d2" config-ref="MySqlConfig" >
