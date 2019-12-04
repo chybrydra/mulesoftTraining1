@@ -41,15 +41,15 @@ payload map ( payload01 , indexOfPayload01 ) -> {
 			</ee:message>
 		</ee:transform>
 	</flow>
-	<flow name="Copy_of_getFlightsFlow" doc:id="8dcaccdd-1b03-4910-b70e-6bf794392c12" >
-		<http:listener doc:name="Copy_of_HTTP" doc:id="d8e47749-31f1-41e0-9ff1-3965ef6ae6d7" config-ref="ListenerConfig" path="/flights/{ID}" outputMimeType="text/plain" allowedMethods="GET">
+	<flow name="getFlightById" doc:id="8dcaccdd-1b03-4910-b70e-6bf794392c12" >
+		<http:listener doc:name="HTTP" doc:id="d8e47749-31f1-41e0-9ff1-3965ef6ae6d7" config-ref="ListenerConfig" path="/flights/{ID}" outputMimeType="text/plain" allowedMethods="GET">
 			<repeatable-in-memory-stream />
 		</http:listener>
-		<db:select doc:name="Copy_of_DbSelectAll" doc:id="74da4eaa-16a6-4793-980d-1f9dde8a99d2" config-ref="MySqlConfig" >
+		<db:select doc:name="DbSelectById" doc:id="74da4eaa-16a6-4793-980d-1f9dde8a99d2" config-ref="MySqlConfig" >
 			<db:sql >SELECT * FROM american WHERE ID = :ID</db:sql>
 			<db:input-parameters ><![CDATA[#[{'ID': attributes.uriParams.ID}]]]></db:input-parameters>
 		</db:select>
-		<ee:transform doc:name="Copy_of_Transform Message" doc:id="3250cec5-9976-4b96-8544-29240a943f30" >
+		<ee:transform doc:name="Transform Message" doc:id="3250cec5-9976-4b96-8544-29240a943f30" >
 			<ee:message >
 				<ee:set-payload ><![CDATA[%dw 2.0
 output application/json
@@ -69,5 +69,11 @@ payload map ( payload01 , indexOfPayload01 ) -> {
 }]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
+	</flow>
+	<flow name="postFlights" doc:id="2b5e1ce5-044a-416c-afd7-ce13a7c799cd" >
+		<http:listener doc:name="Copy_of_HTTP" doc:id="d3a460b8-23e1-45c5-bb98-c7464688a8de" config-ref="ListenerConfig" path="/flights" outputMimeType="text/plain" allowedMethods="POST">
+			<repeatable-in-memory-stream />
+		</http:listener>
+		<set-payload value='{"message": "KEK, YOU ARE KEK"}' doc:name="Set Payload" doc:id="af881eae-d9dc-4405-9041-3c0f53814867" />
 	</flow>
 </mule>
